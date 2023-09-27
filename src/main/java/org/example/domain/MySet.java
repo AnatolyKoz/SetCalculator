@@ -5,27 +5,24 @@ import java.util.List;
 
 public class MySet<E extends Comparable<E>> {
 
-    private List<E> myElems;
-
-
-    private MySet(List<E> myElems) {
-        var copyList = new ArrayList<>(myElems);
+    private final List<E> myElms;
+    private MySet(List<E> myElms) {
+        var copyList = new ArrayList<>(myElms);
         copyList.sort(E::compareTo);
-        this.myElems = copyList;
+        this.myElms = copyList;
     }
 
-    static <E extends Comparable<E>> MySet<E> of(List<E> list) {
+    public static <E extends Comparable<E>> MySet<E> of(List<E> list) {
         return new MySet<>(list);
     }
 
-
-    static <E extends Comparable<E>> MySet<E> union(MySet<E> oneSet, MySet<E> twoSet) {
+    public static <E extends Comparable<E>> MySet<E> union(MySet<E> oneSet, MySet<E> twoSet) {
 
         var firstPointer = 0;
         var secondPointer = 0;
 
-        var firstList = oneSet.myElems;
-        var secondList = twoSet.myElems;
+        var firstList = oneSet.myElms;
+        var secondList = twoSet.myElms;
 
         List<E> resultList = new ArrayList<>();
 
@@ -59,12 +56,12 @@ public class MySet<E extends Comparable<E>> {
         return MySet.of(resultList);
     }
 
-    static <E extends  Comparable<E>> MySet<E> cross(MySet<E> oneSet, MySet<E> twoSet) {
+    public static <E extends  Comparable<E>> MySet<E> cross(MySet<E> oneSet, MySet<E> twoSet) {
         var firstPointer = 0;
         var secondPointer = 0;
 
-        var firstList = oneSet.myElems;
-        var secondList = twoSet.myElems;
+        var firstList = oneSet.myElms;
+        var secondList = twoSet.myElms;
 
         List<E> resultList = new ArrayList<>();
         while (firstPointer < firstList.size() && secondPointer < secondList.size()) {
@@ -85,11 +82,11 @@ public class MySet<E extends Comparable<E>> {
         return MySet.of(resultList);
     }
 
-    static <E extends Comparable<E>> MySet<E> subtract(MySet<E> oneSet, MySet<E> twoSet) {
+    public static <E extends Comparable<E>> MySet<E> subtract(MySet<E> oneSet, MySet<E> twoSet) {
         var secondPointer = 0;
 
-        var firstList = oneSet.myElems;
-        var secondList = twoSet.myElems;
+        var firstList = oneSet.myElms;
+        var secondList = twoSet.myElms;
 
         List<E> resultList = new ArrayList<>();
         for (var e : firstList) {
@@ -113,11 +110,11 @@ public class MySet<E extends Comparable<E>> {
 
         MySet<?> mySet = (MySet<?>) o;
 
-        return myElems.equals(mySet.myElems);
+        return myElms.equals(mySet.myElms);
     }
 
     @Override
     public int hashCode() {
-        return myElems.hashCode();
+        return myElms.hashCode();
     }
 }
