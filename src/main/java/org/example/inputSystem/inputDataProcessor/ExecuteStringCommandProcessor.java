@@ -12,6 +12,6 @@ public class ExecuteStringCommandProcessor implements InputDataProcessor{
 
     @Override
     public StringCommand apply(UndefinedStringCommand stringCommand) {
-        return new ExecuteStringCommand(stringCommand.stringList());
+        return new ExecuteStringCommand(stringCommand.stringList().subList(1, stringCommand.stringList().size()));
     }
 }

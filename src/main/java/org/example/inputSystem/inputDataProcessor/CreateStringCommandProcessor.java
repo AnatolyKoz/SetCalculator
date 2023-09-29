@@ -15,6 +15,6 @@ public class CreateStringCommandProcessor implements  InputDataProcessor {
     }
     @Override
     public StringCommand apply(UndefinedStringCommand stringCommand) {
-        return new CreateStringCommand(stringCommand.stringList());
+        return new CreateStringCommand(stringCommand.stringList().subList(1, stringCommand.stringList().size()));
     }
 }

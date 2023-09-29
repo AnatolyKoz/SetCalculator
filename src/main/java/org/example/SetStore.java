@@ -6,9 +6,7 @@ import java.util.HashMap;
 
 public class SetStore<E extends  Comparable<E>> {
 
-
     private final HashMap<String, MySet<E>> setHashMap;
-
     public SetStore(HashMap<String, MySet<E>> setHashMap) {
         this.setHashMap = setHashMap;
     }

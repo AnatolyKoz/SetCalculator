@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class ChainExecutorService<E extends Comparable<E>> implements SetExecutor<E>, ExecutorService<E>{
+public class ChainExecutorService<E extends Comparable<E>> implements ExecutorService<E>{
 
     private final Set<Class<?>> supportedClasses = new HashSet<>();
     private final List<SetExecutor<E>> executorList = new LinkedList<>();
@@ -28,10 +28,10 @@ public class ChainExecutorService<E extends Comparable<E>> implements SetExecuto
     }
 
     @Override
-    public boolean addExecutor(Command<E> command, SetExecutor<E> executor) {
-        if (supportedClasses.contains(command.getClass()))
+    public boolean addExecutor(Class<?> clazz, SetExecutor<E> executor) {
+        if (supportedClasses.contains(clazz))
             throw new IllegalArgumentException();
-        supportedClasses.add(command.getClass());
+        supportedClasses.add(clazz);
         executorList.add(executor);
         return true;
     }

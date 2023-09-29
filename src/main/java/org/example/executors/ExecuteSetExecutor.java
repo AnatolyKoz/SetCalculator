@@ -33,19 +33,25 @@ public class ExecuteSetExecutor<E extends Comparable<E>> implements SetExecutor<
             var symbol = command.charAt(0);
 
             if (symbol == '!') {
-                var result = MySet.subtract(stack.pop(), store.getSet("universum"));
+                var result = MySet.subtract(store.getSet("universum"), stack.pop());
                 stack.add(result);
             }
-            else if (symbol == '&'){
+            else if (symbol == '|'){
                 var result = MySet.union(stack.pop(), stack.pop());
                 stack.add(result);
             }
-            else if (symbol == '|') {
+            else if (symbol == '&') {
                 var result = MySet.cross(stack.pop(), stack.pop());
                 stack.add(result);
             }
             else if (symbol == '/') {
-                var result = MySet.cross(stack.pop(), stack.pop());
+                var reference = stack.pop();
+                var result = MySet.subtract(stack.pop(), reference);
+                stack.add(result);
+            }
+            else if (symbol == '^') {
+                var reference = stack.pop();
+                var result = MySet.symDif(stack.pop(), reference);
                 stack.add(result);
             }
             else {

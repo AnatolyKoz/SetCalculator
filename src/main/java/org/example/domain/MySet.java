@@ -3,11 +3,11 @@ package org.example.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySet<E extends Comparable<E>> {
+public class MySet<E extends Comparable<E> > {
 
     private final List<E> myElms;
     private MySet(List<E> myElms) {
-        var copyList = new ArrayList<>(myElms);
+        List<E> copyList = new ArrayList<>(myElms);
         copyList.sort(E::compareTo);
         this.myElms = copyList;
     }
@@ -41,14 +41,14 @@ public class MySet<E extends Comparable<E>> {
             }
         }
 
-        if (firstPointer < firstList.size() && resultList.get(resultList.size() - 1) == firstList.get(firstPointer))
+        if (firstPointer < firstList.size() && resultList.size() > 0 && resultList.get(resultList.size() - 1) == firstList.get(firstPointer))
             firstPointer += 1;
 
         while (firstPointer < firstList.size()) {
             resultList.add(firstList.get(firstPointer++));
         }
 
-        if (secondPointer < secondList.size() && resultList.get(resultList.size() - 1) == secondList.get(secondPointer))
+        if (secondPointer < secondList.size() && resultList.size() > 0 && resultList.get(resultList.size() - 1) == secondList.get(secondPointer))
             secondPointer += 1;
         while (secondPointer < secondList.size()) {
             resultList.add(secondList.get(secondPointer++));
@@ -82,6 +82,10 @@ public class MySet<E extends Comparable<E>> {
         return MySet.of(resultList);
     }
 
+    public static <E extends Comparable<E>> MySet<E> symDif(MySet<E> oneSet, MySet<E> twoSet) {
+        return union(subtract(oneSet, twoSet), subtract(twoSet, oneSet));
+    }
+
     public static <E extends Comparable<E>> MySet<E> subtract(MySet<E> oneSet, MySet<E> twoSet) {
         var secondPointer = 0;
 
@@ -103,6 +107,9 @@ public class MySet<E extends Comparable<E>> {
         return MySet.of(resultList);
     }
 
+    public List<E> getMyElms() {
+        return this.myElms;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

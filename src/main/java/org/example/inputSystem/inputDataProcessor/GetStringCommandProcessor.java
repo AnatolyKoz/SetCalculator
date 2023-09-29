@@ -15,6 +15,6 @@ public class GetStringCommandProcessor implements InputDataProcessor{
 
     @Override
     public StringCommand apply(UndefinedStringCommand undefinedStringCommand) {
-        return new GetStringCommand(undefinedStringCommand.stringList());
+        return new GetStringCommand(undefinedStringCommand.stringList().get(1));
     }
 }

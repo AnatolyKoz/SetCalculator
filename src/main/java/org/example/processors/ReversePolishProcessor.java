@@ -13,7 +13,7 @@ public class ReversePolishProcessor implements Function<List<String>, List<Strin
         Stack<Character> stack = new Stack<>();
         for (var string : stringList) {
             if (string.length() > 1) {
-                list.add(string);
+                list.add(string.toLowerCase());
                 continue;
             }
 
@@ -35,7 +35,7 @@ public class ReversePolishProcessor implements Function<List<String>, List<Strin
                 continue;
             }
 
-            while (stack.size() > 0 && stack.peek() != ')') {
+            while (stack.size() > 0 && stack.peek() != '(') {
                 list.add(String.valueOf(stack.pop()));
             }
             stack.add(symbol);

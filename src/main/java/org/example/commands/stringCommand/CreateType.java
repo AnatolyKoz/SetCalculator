@@ -1,13 +1,13 @@
 package org.example.commands.stringCommand;
 
-public enum StringCommandType {
-    CREATE("CREATE"),
-    EXECUTE("EXECUTE"),
-    GET("GET");
+public enum CreateType {
+    FROM("FROM"),
+    GENERATE("GENERATE"),
+    RANDOM("RANDOM");
 
     public final String name;
 
-    public static StringCommandType getTypeByName(String name) {
+    public static CreateType getTypeByName(String name) {
         for (var elem : values()) {
             if (elem.name.equalsIgnoreCase(name))
                 return elem;
@@ -15,7 +15,7 @@ public enum StringCommandType {
         return null;
     }
 
-    StringCommandType(String name) {
+    CreateType(String name) {
         this.name = name;
     }
 }
