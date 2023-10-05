@@ -25,7 +25,8 @@ public class CreateSetExecutor<E extends Comparable<E>> implements SetExecutor<E
 
         CreateCommand<E> command = (CreateCommand<E>) es;
 
-
+        if  (command.name().equalsIgnoreCase("universum"))
+            store.clear();
         store.setSet(command.name(), MySet.of((command.list())));
     }
 

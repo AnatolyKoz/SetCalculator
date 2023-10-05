@@ -16,4 +16,8 @@ public class SetStore<E extends  Comparable<E>> {
     public MySet<E> getSet(String name) {
         return setHashMap.get(name);
     }
+
+    public void clear() {
+        setHashMap.clear();
+    }
 }

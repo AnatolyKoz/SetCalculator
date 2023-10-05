@@ -1,5 +1,6 @@
 package org.example.processors;
 
+import jdk.jfr.Percentage;
 import org.example.SetStore;
 import org.example.commands.CreateCommand;
 import org.example.commands.stringCommand.CreateStringCommand;
@@ -27,19 +28,34 @@ public class CreateCommandProcessor<E extends Integer> implements CommandParser<
     public CreateCommand<Integer> apply(StringCommand s) {
         CreateStringCommand createStringCommand = (CreateStringCommand) s;
 
-        var list = createStringCommand.stringList();
+        var list = createStringCommand.stringList().stream().filter(Predicate.not(String::isBlank)).toList();
         String name = list.get(0);
         CreateType createType = CreateType.getTypeByName(list.get(1));
         List<Integer> resList;
         List<Integer> univerList = store.getSet("universum").getMyElms();
         switch (Objects.requireNonNull(createType)) {
             case FROM -> {
-                resList = list.subList(2, list.size()).stream().mapToInt(Integer::valueOf).filter(univerList::contains).sorted().boxed().toList();
+                if (name.equalsIgnoreCase("universum")) {
+                    resList = list.subList(2, list.size())
+                            .stream()
+                            .mapToInt(Integer::valueOf)
+                            .sorted().boxed().toList();
+                    break;
+                }
+                resList = list.subList(2, list.size())
+                        .stream()
+                        .mapToInt(Integer::valueOf)
+                        .filter(univerList::contains).sorted().boxed().toList();
             }
             case GENERATE -> {
+
                 int from = Integer.parseInt(list.get(2));
                 int to = Integer.parseInt(list.get(3));
                 int turn = Integer.parseInt(list.get(4));
+                if (name.equalsIgnoreCase("universum")) {
+                    resList = IntStream.iterate(from, (i) -> i  <= to,  (i) -> i + turn).sorted().boxed().toList();
+                    break;
+                }
                 resList = IntStream.iterate(from, (i) -> i  <= to,  (i) -> i + turn).filter(univerList::contains).sorted().boxed().toList();
             }
             case RANDOM -> {
@@ -50,6 +66,15 @@ public class CreateCommandProcessor<E extends Integer> implements CommandParser<
                 Set<Integer> taked = new HashSet<>();
                 if (count > univerList.size())
                     throw new IllegalArgumentException();
+                if (name.equalsIgnoreCase("universum")) {
+                    resList = Stream.generate(() -> random.nextInt(from, to))
+                            .filter(Predicate.not(taked::contains))
+                            .peek(taked::add)
+                            .limit(count)
+                            .sorted()
+                            .toList();
+                    break;
+                }
                 resList = Stream.generate(() -> random.nextInt(from, to))
                         .filter(univerList::contains)
                         .filter(Predicate.not(taked::contains))

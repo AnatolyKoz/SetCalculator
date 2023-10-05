@@ -39,8 +39,6 @@ public class Main {
         commandParserRouter.addProcessor(ExecuteStringCommand.class, new ExecuteCommandProcessor<>());
         commandParserRouter.addProcessor(GetStringCommand.class, new GetCommandParser<>());
 
-
-
         store.setSet("universum", MySet.of(IntStream.rangeClosed(1, 100).boxed().toList()));
         ExecutorService<Integer> executorService = new ChainExecutorService<>();
         executorService.addExecutor(CreateCommand.class,  new CreateSetExecutor<>(store));
